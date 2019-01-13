@@ -197,3 +197,9 @@ button:active {
   text-align: center;
   font-size: 0.8em;
 }
+
+.override{
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+}

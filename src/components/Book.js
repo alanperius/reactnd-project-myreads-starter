@@ -2,11 +2,11 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 
+
 class Book extends Component {
 
     handleNewShelf = (event, shelf, book) => {
         event.preventDefault();
-        console.log(shelf);
         this.props.onChangeShelf(book, shelf);
     }
 
@@ -22,7 +22,7 @@ class Book extends Component {
                         </option>
                         <option selected={book.shelf === 'wantToRead'} value="wantToRead">Want to Read</option>
                         <option selected={book.shelf === 'read'} value="read">Read</option>
-                        <option value="none">None</option>
+                        <option selected={book.shelf === 'none'} value="none">None</option>
                     </select>
                 </div>
 
@@ -34,6 +34,7 @@ class Book extends Component {
 
 Book.propTypes = {
     book: PropTypes.object.isRequired,
+    onChangeShelf: PropTypes.func.isRequired
 };
 
 export default Book;
