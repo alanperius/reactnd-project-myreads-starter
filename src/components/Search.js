@@ -24,8 +24,9 @@ class Search extends Component {
                         </div>
                         <div className="search-books-results">
                             <ol className="books-grid">
-                                <Books listBooks={searchResults} isLoading={loadingSearch} onChangeShelf={onChangeShelf}/>
+                                {searchResults.length > 0 && <p>We found {searchResults.length} {searchResults.length === 1 ? 'book' : 'books'}</p>}
 
+                                <Books listBooks={searchResults} isLoading={loadingSearch} onChangeShelf={onChangeShelf}/>
                             </ol>
                         </div>
                     </div>

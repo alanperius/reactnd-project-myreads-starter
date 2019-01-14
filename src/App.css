@@ -203,3 +203,9 @@ button:active {
   margin: 0 auto;
   border-color: red;
 }
+
+.card{
+  min-width: 200px!important;
+  max-width: 200px!important;
+  margin-bottom: 20px!important;
+}
