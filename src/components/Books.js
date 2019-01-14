@@ -5,7 +5,7 @@ import {ClipLoader} from 'react-spinners';
 import ImageNotFound from '../images/no-image.png'
 import {
     Card, CardImg, CardTitle, CardDeck,
-    CardSubtitle, CardBody, CardFooter, Row, Col
+    CardSubtitle, CardBody, CardFooter,
 } from 'reactstrap';
 import StarRatingComponent from 'react-star-rating-component';
 
@@ -30,25 +30,25 @@ class Books extends Component {
                     <CardDeck>
                         {
                             listBooks.map((book) => (
-                                    <Card>
-                                        <CardImg top width="100%"
-                                                 src={book.imageLinks ? book.imageLinks.smallThumbnail : ImageNotFound}
-                                                 alt={book.alt}/>
-                                        <CardBody>
-                                            <CardTitle>{book.title}</CardTitle>
-                                            <CardSubtitle
-                                                className="book-authors">{book.authors ? book.authors.join(', ') : 'Unknown author'}</CardSubtitle>
-                                            <Book book={book} onChangeShelf={onChangeShelf} isLoading={isLoading}/>
-                                        </CardBody>
-                                        <CardFooter>
-                                            <h6>Average Rating</h6>
-                                            <StarRatingComponent
-                                                name="Average Rating"
-                                                starCount={5}
-                                                value={book.averageRating}
-                                            />
-                                        </CardFooter>
-                                    </Card>
+                                <Card>
+                                    <CardImg top width="100%"
+                                             src={book.imageLinks ? book.imageLinks.smallThumbnail : ImageNotFound}
+                                             alt={book.alt}/>
+                                    <CardBody>
+                                        <CardTitle>{book.title}</CardTitle>
+                                        <CardSubtitle
+                                            className="book-authors">{book.authors ? book.authors.join(', ') : 'Unknown author'}</CardSubtitle>
+                                        <Book book={book} onChangeShelf={onChangeShelf}/>
+                                    </CardBody>
+                                    <CardFooter>
+                                        <h6>Average Rating</h6>
+                                        <StarRatingComponent
+                                            name="Average Rating"
+                                            starCount={5}
+                                            value={book.averageRating}
+                                        />
+                                    </CardFooter>
+                                </Card>
 
                             ))
                         }
@@ -60,6 +60,11 @@ class Books extends Component {
         );
     }
 }
+Books.propTypes = {
+    listBooks: PropTypes.array.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    onChangeShelf: PropTypes.func.isRequired,
+};
 
 
 export default Books;

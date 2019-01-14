@@ -34,23 +34,34 @@ class Home extends Component {
     }
 
     searchBook = (query) => {
+        this.setState({
+            loadingSearch: false,
+            searchResults: [],
+            query: query
+        });
+
+        if (this.find) {
+            clearTimeout(this.find);
+        }
+
         if (query !== '') {
             this.setState({
                 loadingSearch: true,
-                searchResults: [],
-                query: query
             });
 
 
-            if(this.find) clearTimeout(this.find);
             this.find = setTimeout(() => {
                 BooksAPI.search(this.state.query).then((data) => {
+                    this.setState({
+                        loadingSearch: false
+                    });
+
                     if (data.length > 0) {
 
                         const bookMatched = data.map((book) => {
                             book.shelf = 'none';
                             this.state.books.map((b) => {
-                                if(book.id === b.id){
+                                if (book.id === b.id) {
                                     book.shelf = b.shelf
                                 }
                             })
@@ -59,66 +70,63 @@ class Home extends Component {
 
                         this.setState({
                             searchResults: bookMatched,
-                            loadingSearch: false,
                             query: ''
                         });
                     }
-
                 })
             }, 1500);
 
         }
     }
 
-        componentDidMount(){
-            this.search();
-        }
-
-        search(){
-            BooksAPI.getAll().then((books) => {
-                this.setState(() => ({
-                        loading: false,
-                        books: books,
-                    })
-                )
-            })
-        }
-
-        render()
-        {
-            const {books, shelf, loading, loadingSearch, searchResults} = this.state;
-            return (
-                <div className="app">
-                    <Route path="/" exact={true} render={() => (
-                        <div className="list-books">
-                            <div className="list-books-title">
-                                <h1>MyReads Project</h1>
-                            </div>
-                            <div className="list-books-content">
-                                <div>
-                                    {shelf.map((s) => {
-                                        return <div key={s.id}> <Shelf books={books}
-                                                                       shelf={s}
-                                                                       onChangeShelf={this.changeShelf}
-                                                                       isLoading={loading}/></div>
-                                    })}
-                                </div>
-                            </div>
-                            <div className="open-search">
-                                <Link to='/search'>Add a book</Link>
-                            </div>
-                        </div>
-                    )}/>
-                    <Route path="/search" render={() => (
-                        <Search loadingSearch={loadingSearch}
-                                onChangeShelf={this.changeShelf}
-                                onSearchBook={this.searchBook}
-                                searchResults={searchResults}/>
-                    )}/>
-
-                </div>
-            );
-        }
+    componentDidMount() {
+        this.search();
     }
 
-    export default Home;
+    search() {
+        BooksAPI.getAll().then((books) => {
+            this.setState(() => ({
+                    loading: false,
+                    books: books,
+                })
+            )
+        })
+    }
+
+    render() {
+        const {books, shelf, loading, loadingSearch, searchResults} = this.state;
+        return (
+            <div className="app">
+                <Route path="/" exact={true} render={() => (
+                    <div className="list-books">
+                        <div className="list-books-title">
+                            <h1>MyReads Project</h1>
+                        </div>
+                        <div className="list-books-content">
+                            <div>
+                                {shelf.map((s) => {
+                                    return <div key={s.id}><Shelf books={books}
+                                                                  shelf={s}
+                                                                  onChangeShelf={this.changeShelf}
+                                                                  isLoading={loading}/></div>
+                                })}
+                            </div>
+                        </div>
+                        <div className="open-search">
+                            <Link to='/search'>Add a book</Link>
+                        </div>
+                    </div>
+                )}/>
+                <Route path="/search" render={() => (
+                    <Search loadingSearch={loadingSearch}
+                            onChangeShelf={this.changeShelf}
+                            onSearchBook={this.searchBook}
+                            searchResults={searchResults}/>
+                )}/>
+
+            </div>
+        );
+    }
+}
+
+export default Home;

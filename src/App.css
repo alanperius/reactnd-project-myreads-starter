@@ -209,3 +209,7 @@ button:active {
   max-width: 200px!important;
   margin-bottom: 20px!important;
 }
+
+.card img{
+  max-height: 245px;
+}
